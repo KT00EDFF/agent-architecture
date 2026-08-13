@@ -77,7 +77,7 @@
     border-bottom: 1px solid var(--line);
   }
   .hero h1 { margin: 0; font-size: clamp(28px, 5vw, 44px); letter-spacing: -.02em; }
-  .hero p { margin: 10px auto 0; max-width: 640px; color: var(--ink-soft); font-size: 17px; }
+  .hero p { margin: 10px auto 0; max-width: 660px; color: var(--ink-soft); font-size: 17px; }
   .hero .pills { margin-top: 18px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .pill { font-size: 13px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); }
   .pill b { font-weight: 600; }
@@ -93,7 +93,7 @@
   .tab-btn {
     appearance: none; border: 1px solid transparent; background: transparent;
     color: var(--ink-soft); font: inherit; font-weight: 600; font-size: 14.5px;
-    padding: 9px 16px; border-radius: 10px; cursor: pointer; transition: .15s;
+    padding: 9px 15px; border-radius: 10px; cursor: pointer; transition: .15s;
   }
   .tab-btn:hover { color: var(--ink); background: var(--panel-2); }
   .tab-btn.active { color: #fff; background: var(--accent); box-shadow: var(--shadow); }
@@ -122,7 +122,33 @@
   .mini h4 { margin: 0 0 4px; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-soft); }
   .mini ul { margin: 6px 0 0; padding-left: 18px; }
   .mini li { margin: 3px 0; font-size: 14.5px; }
-  code, .kbd { font-family: var(--mono); font-size: .92em; background: var(--panel-2); padding: 1px 6px; border-radius: 5px; }
+  code, .kbd { font-family: var(--mono); font-size: .9em; background: var(--panel-2); padding: 1px 6px; border-radius: 5px; }
+
+  /* Sourced quote */
+  blockquote.src {
+    margin: 14px 0; padding: 12px 16px; border-left: 3px solid var(--accent);
+    background: var(--accent-soft); border-radius: 0 10px 10px 0; font-size: 15px;
+  }
+  blockquote.src cite { display: block; margin-top: 6px; font-size: 12.5px; font-style: normal; color: var(--ink-soft); }
+  blockquote.src cite a { font-weight: 600; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); color: var(--ink-soft); vertical-align: middle; }
+
+  /* Vocab table */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+  table.vocab { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14px; }
+  table.vocab th, table.vocab td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--line); }
+  table.vocab thead th { background: var(--panel-2); font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+  table.vocab tbody tr:last-child td { border-bottom: none; }
+  table.vocab td:first-child, table.vocab th:first-child { font-weight: 700; }
+  table.vocab code { white-space: nowrap; }
+
+  .callout {
+    display: flex; gap: 12px; padding: 14px 16px; border-radius: 12px;
+    background: color-mix(in srgb, var(--warn) 12%, var(--panel)); border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--line));
+    margin: 14px 0; font-size: 14.5px;
+  }
+  .callout .ic { font-size: 20px; flex: none; }
+  .callout.good { background: color-mix(in srgb, var(--good) 12%, var(--panel)); border-color: color-mix(in srgb, var(--good) 40%, var(--line)); }
 
   /* Diagram */
   .diagram-wrap { overflow-x: auto; border-radius: var(--radius); }
@@ -185,10 +211,21 @@
   .opt:disabled { cursor: default; }
   .explain { margin-top: 6px; padding: 13px 15px; border-radius: 11px; background: var(--accent-soft); border: 1px solid var(--line); font-size: 14.5px; display: none; }
   .explain.show { display: block; animation: fade .25s; }
+  .explain cite { display: block; margin-top: 7px; font-size: 12px; font-style: normal; color: var(--ink-soft); }
   .quiz-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; gap: 12px; flex-wrap: wrap; }
   .progress { height: 8px; background: var(--panel-2); border-radius: 999px; overflow: hidden; flex: 1; min-width: 140px; }
   .progress > i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s; }
   .score-big { font-size: 40px; font-weight: 800; letter-spacing: -.02em; }
+
+  /* Sources */
+  .src-list { list-style: none; padding: 0; margin: 0; }
+  .src-list li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .src-list li:last-child { border-bottom: none; }
+  .src-list .st { font-weight: 700; }
+  .src-list .sd { color: var(--ink-soft); font-size: 14px; margin-top: 2px; }
+  .vbadge { font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+  .v-yes { background: color-mix(in srgb, var(--good) 20%, var(--panel)); color: var(--good); border: 1px solid color-mix(in srgb, var(--good) 40%, var(--line)); }
+  .v-corr { background: color-mix(in srgb, var(--warn) 18%, var(--panel)); color: var(--warn); border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--line)); }
 
   footer { text-align: center; color: var(--ink-soft); font-size: 13.5px; padding: 30px 20px; border-top: 1px solid var(--line); margin-top: 40px; }
   .theme-toggle { position: fixed; top: 12px; right: 14px; z-index: 40; }
@@ -202,76 +239,155 @@
 
   <header class="hero">
     <h1>Agent Architecture Lab</h1>
-    <p>Learn and test your understanding of multi-agent systems — how a <b>supervisor</b> delegates, how an <b>orchestrator</b> sequences work, and how <b>domain sub-agents</b> do the specialized labor.</p>
+    <p>Learn and test your understanding of multi-agent systems — grounded in how <b>Anthropic</b>, <b>LangGraph</b>, <b>OpenAI</b>, and <b>AWS</b> actually define them. Because the same idea goes by four different names.</p>
     <div class="pills">
-      <span class="pill"><b>Supervisor</b> · routes &amp; decides</span>
-      <span class="pill"><b>Orchestrator</b> · sequences &amp; coordinates</span>
-      <span class="pill"><b>Sub-agents</b> · execute in a domain</span>
+      <span class="pill"><b>Coordinator</b> · orchestrator / supervisor / manager</span>
+      <span class="pill"><b>Workers</b> · sub-agents</span>
+      <span class="pill"><b>Workflow vs. Agent</b></span>
     </div>
   </header>
 
   <nav class="tabs" id="tabs">
     <button class="tab-btn active" data-tab="learn">📖 Learn</button>
+    <button class="tab-btn" data-tab="vocab">🔤 Vocabulary</button>
     <button class="tab-btn" data-tab="diagram">🗺️ Diagram</button>
     <button class="tab-btn" data-tab="sim">🎛️ Simulator</button>
     <button class="tab-btn" data-tab="test">🧠 Test</button>
+    <button class="tab-btn" data-tab="sources">📚 Sources</button>
   </nav>
 
   <div class="wrap">
 
     <!-- ================= LEARN ================= -->
     <section class="tab active" id="learn">
-      <h2 class="section-title">The three roles</h2>
-      <p class="section-sub">Every multi-agent system is a division of labor. These are the three archetypal jobs. Real systems mix and nest them.</p>
+      <h2 class="section-title">Start here: workflow vs. agent</h2>
+      <p class="section-sub">Anthropic's taxonomy — the most-cited framing — hangs on one distinction. Get this first; everything else sits inside it.</p>
 
       <div class="card">
-        <div class="role">Role 1</div>
-        <h3><span class="dot" style="background:var(--supervisor)"></span>Supervisor Agent</h3>
-        <p>The <b>decision-maker at the top</b>. It receives the user's goal, decides <i>who</i> should handle it, delegates, and synthesizes the results into a final answer. It owns the conversation and the outcome — but does little domain work itself.</p>
+        <h3>The foundational split</h3>
+        <p>Anthropic groups everything under <b>“agentic systems”</b> and then splits it in two:</p>
+        <blockquote class="src">
+          <b>Workflows</b> are “systems where LLMs and tools are orchestrated through predefined code paths.”<br>
+          <b>Agents</b> are “systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks.”
+          <cite>Anthropic, <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building Effective Agents</a> (Dec 2024) · <span class="tag">quote corroborated</span></cite>
+        </blockquote>
+        <p>The whole point: an <b>agent</b> (in the strict sense) is defined by <i>dynamic self-direction</i>; a <b>workflow</b> follows <i>predefined code paths</i>. Most “multi-agent” diagrams you see online are actually workflows by this definition — and that's fine. The lesson is to <b>build the simplest thing that works</b>, and only add agent-style autonomy when the task demands it.</p>
+      </div>
+
+      <h2 class="section-title" style="margin-top:30px">Anthropic's building-block patterns</h2>
+      <p class="section-sub">Five workflow patterns plus the autonomous agent. The two the internet most often confuses are <b>routing</b> and <b>orchestrator-workers</b> — pay attention to the line between them.</p>
+
+      <div class="card">
         <div class="grid-2">
-          <div class="mini"><h4>Thinks about</h4><ul><li>"Which agent is right for this?"</li><li>"Do I have enough to answer?"</li><li>"Should I ask a follow-up?"</li></ul></div>
-          <div class="mini"><h4>Superpower / risk</h4><ul><li>✅ Flexible routing, easy to extend</li><li>⚠️ Becomes a bottleneck &amp; single point of failure</li><li>⚠️ Can loop if it can't decide</li></ul></div>
+          <div class="mini"><h4>1 · Prompt chaining</h4><ul><li>Decompose into a fixed sequence of steps; each LLM call processes the previous output.</li><li>Optional programmatic “gate” checks between steps.</li></ul></div>
+          <div class="mini"><h4>2 · Routing <span class="tag">often confused</span></h4><ul><li>“Classifies an input and directs it to a specialized followup task.”</li><li>Classify → <b>one</b> specialized path. No fan-out, no synthesis.</li></ul></div>
+          <div class="mini"><h4>3 · Parallelization</h4><ul><li><b>Sectioning</b>: split into independent subtasks run in parallel.</li><li><b>Voting</b>: run the same task several times for diverse outputs.</li><li>The split here is <b>fixed in code</b>.</li></ul></div>
+          <div class="mini"><h4>4 · Orchestrator-workers <span class="tag">the key one</span></h4><ul><li>“A central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.”</li><li>Defining trait: subtasks are <b>NOT pre-defined</b> — the orchestrator decides them at runtime from the input.</li></ul></div>
+          <div class="mini"><h4>5 · Evaluator-optimizer</h4><ul><li>One LLM generates; another evaluates and gives feedback in a loop.</li></ul></div>
+          <div class="mini"><h4>6 · Autonomous agent</h4><ul><li>Fully dynamic: the LLM plans and acts on its own, gaining “ground truth from the environment at each step,” looping to a stop condition.</li></ul></div>
         </div>
-        <p><b>Analogy:</b> an ER triage doctor — doesn't do the surgery, decides which specialist you see.</p>
+        <div class="callout">
+          <span class="ic">⚠️</span>
+          <div><b>The distinction people get wrong.</b> <u>Parallelization / sectioning</u> = the split is decided <b>in advance, in code</b>. <u>Orchestrator-workers</u> = the split is decided <b>dynamically by the orchestrator</b> from the specific input. That runtime-vs-hardcoded decomposition is the entire difference.</div>
+        </div>
+        <div class="callout">
+          <span class="ic">⚠️</span>
+          <div><b>Routing ≠ supervising.</b> <u>Routing</u> classifies and sends the request down <b>one</b> path — no synthesis. A <u>supervisor/orchestrator</u> <b>decomposes, fans out to many workers, and synthesizes</b>. AWS actually ships both as separate modes (“supervisor” vs. “supervisor with routing”), which proves they're distinct layers you can combine.</div>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="margin-top:30px">The three roles</h2>
+      <p class="section-sub">Every vendor describes the same hub-and-spoke shape. Here are the roles — with each vendor's real name attached (see the Vocabulary tab for the full map).</p>
+
+      <div class="card">
+        <div class="role">Role 1 · the coordinator</div>
+        <h3><span class="dot" style="background:var(--supervisor)"></span>Orchestrator / Supervisor / Manager / Lead agent</h3>
+        <p>The <b>decision-maker at the top</b>. It receives the goal, decides how to break it up and <i>who</i> handles each piece, delegates, and synthesizes results into a final answer. It owns the outcome but does little domain work itself.</p>
+        <blockquote class="src">
+          A supervisor is a central agent that “controls all communication flow and task delegation, making decisions about which agent to invoke based on the current context and task requirements.”
+          <cite>LangGraph, <a href="https://github.com/langchain-ai/langgraph-supervisor-py" target="_blank" rel="noopener">langgraph-supervisor</a> · <span class="tag">verbatim</span></cite>
+        </blockquote>
+        <div class="grid-2">
+          <div class="mini"><h4>Thinks about</h4><ul><li>“How do I decompose this?”</li><li>“Which worker gets which piece?”</li><li>“Do I have enough to answer, or spawn more?”</li></ul></div>
+          <div class="mini"><h4>Superpower / risk</h4><ul><li>✅ Flexible, dynamic decomposition</li><li>⚠️ Bottleneck &amp; single point of failure</li><li>⚠️ Delegation quality is everything — vague handoffs cause duplicated or missed work</li></ul></div>
+        </div>
       </div>
 
       <div class="card">
-        <div class="role">Role 2</div>
-        <h3><span class="dot" style="background:var(--orchestrator)"></span>Orchestrator Agent</h3>
-        <p>The <b>workflow engine</b>. Where a supervisor <i>decides who</i>, an orchestrator <i>runs a plan</i>: it breaks a goal into ordered steps, calls agents in sequence (or in parallel), passes outputs of one step as inputs to the next, and handles retries and failures. It cares about <i>process</i>, not just routing.</p>
+        <div class="role">Role 2 · the process</div>
+        <h3><span class="dot" style="background:var(--orchestrator)"></span>Orchestration — centralized vs. decentralized</h3>
+        <p>“Orchestration” is the <i>flow</i> of agents: which run, in what order, and how the next step is decided. OpenAI names the two philosophies most cleanly:</p>
+        <blockquote class="src">
+          “There are two main ways to orchestrate agents: 1. Allowing the LLM to make decisions… 2. Orchestrating via code.”
+          <cite>OpenAI, <a href="https://openai.github.io/openai-agents-python/multi_agent/" target="_blank" rel="noopener">Agents SDK — Orchestration</a> · <span class="tag">verbatim</span></cite>
+        </blockquote>
         <div class="grid-2">
-          <div class="mini"><h4>Thinks about</h4><ul><li>"What are the steps, in what order?"</li><li>"What can run in parallel?"</li><li>"Step 2 failed — retry or reroute?"</li></ul></div>
-          <div class="mini"><h4>Superpower / risk</h4><ul><li>✅ Reliable, repeatable pipelines</li><li>✅ State &amp; error handling</li><li>⚠️ Rigid; less adaptive than pure routing</li></ul></div>
+          <div class="mini"><h4>Manager pattern (centralized)</h4><ul><li>A central “manager” coordinates specialists <b>through tool calls</b> (agents-as-tools).</li><li>One agent keeps control and access to the user.</li></ul></div>
+          <div class="mini"><h4>Decentralized pattern (peer)</h4><ul><li>Agents <b>hand off</b> control to a peer that takes over the conversation.</li><li>Edges are <b>handoffs</b>, not tool calls.</li></ul></div>
         </div>
-        <p><b>Analogy:</b> a film director working from a shot list — sequences the specialists, keeps continuity between scenes.</p>
+        <div class="callout">
+          <span class="ic">🔀</span>
+          <div><b>Handoff ≠ delegation.</b> A <u>handoff</u> (OpenAI / decentralized) <b>transfers control and conversation ownership</b> to a peer that finishes the turn. <u>Delegation</u> (manager / supervisor) keeps the coordinator in control and expects the worker to <b>report back</b>. Different control-flow semantics — don't treat them as the same word.</div>
+        </div>
       </div>
 
       <div class="card">
-        <div class="role">Role 3</div>
-        <h3><span class="dot" style="background:var(--domain)"></span>Sub-agent / Domain Agent</h3>
-        <p>The <b>specialist that does the actual work</b>. Narrow scope, deep capability: a SQL agent, a code-review agent, a billing agent, a web-research agent. It's given a focused sub-task with just the context it needs, and returns a focused result. Good sub-agents are <i>replaceable and testable in isolation</i>.</p>
-        <div class="grid-2">
-          <div class="mini"><h4>Thinks about</h4><ul><li>"Do this one thing well"</li><li>"Use my tools for this domain"</li><li>"Return a clean, structured result"</li></ul></div>
-          <div class="mini"><h4>Superpower / risk</h4><ul><li>✅ Focused context = fewer mistakes</li><li>✅ Independently upgradable</li><li>⚠️ No global view; can't self-coordinate</li></ul></div>
+        <div class="role">Role 3 · the specialist</div>
+        <h3><span class="dot" style="background:var(--domain)"></span>Sub-agent / Worker / Domain agent</h3>
+        <p>The <b>specialist that does the actual work</b>. Narrow scope, given a focused sub-task with just the context it needs, returns a focused result. In Anthropic's research system, the lead agent “spawns subagents to explore different aspects simultaneously” — typically 3–5 in parallel.</p>
+        <div class="callout good">
+          <span class="ic">✅</span>
+          <div><b>Myth to drop:</b> “a sub-agent is just a smaller/weaker agent.” <b>Sub-agent</b> names a <i>role in a hierarchy</i> (delegated-to, scoped, reports up) — not a size class. Anthropic ran subagents on Sonnet and the lead on Opus, but that's an implementation choice, not the definition.</div>
         </div>
-        <p><b>Analogy:</b> a cardiologist — brilliant in one domain, relies on triage to be sent the right patients.</p>
+      </div>
+
+      <h2 class="section-title" style="margin-top:30px">The honest cost/benefit</h2>
+      <div class="card">
+        <p>Multi-agent is <b>not</b> universally better. Anthropic's own numbers:</p>
+        <blockquote class="src">
+          “Agents typically use about 4× more tokens than chat interactions, and multi-agent systems use about 15× more tokens than chats.” Token usage alone “explains 80% of the variance” in performance.
+          <cite>Anthropic, <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">How we built our multi-agent research system</a> (Jun 2025) · <span class="tag">quote corroborated</span></cite>
+        </blockquote>
+        <div class="grid-2">
+          <div class="mini"><h4>When multi-agent wins</h4><ul><li>Heavy parallelization</li><li>Information exceeding one context window</li><li>Many complex tools; breadth-first research</li><li>Their system beat single-agent Opus by <b>90.2%</b> on an internal research eval</li></ul></div>
+          <div class="mini"><h4>When it doesn't</h4><ul><li>Tightly-coupled tasks like <b>coding</b> (subtasks share state) — mostly stayed single-agent</li><li>When the task value can't justify ~15× token cost</li><li>Rule of thumb: <b>start with one agent</b>, add agents only when forced to</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VOCABULARY ================= -->
+    <section class="tab" id="vocab">
+      <h2 class="section-title">Same idea, four vocabularies</h2>
+      <p class="section-sub">This is the single biggest source of confusion — and the correction that matters most. <b>“Supervisor,” “orchestrator,” and “manager” are different vendors' words for essentially the same coordinator role.</b> They are <i>not</i> interchangeable citations.</p>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table class="vocab">
+            <thead>
+              <tr><th>Concept</th><th>Anthropic</th><th>LangGraph</th><th>OpenAI</th><th>AWS Bedrock</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>The central coordinator</td><td>orchestrator / lead agent</td><td>supervisor</td><td>manager</td><td>supervisor agent</td></tr>
+              <tr><td>The delegated workers</td><td>subagents / workers</td><td>agents (workers)</td><td>specialized agents</td><td>collaborator / sub-agents</td></tr>
+              <tr><td>The pattern name</td><td>orchestrator-workers</td><td>supervisor architecture</td><td>manager pattern</td><td>multi-agent collaboration</td></tr>
+              <tr><td>Peer-to-peer control transfer</td><td>—</td><td>Network (handoffs)</td><td>decentralized (handoffs)</td><td>—</td></tr>
+              <tr><td>Route a request to a specialist</td><td>routing (own workflow)</td><td>conditional edges</td><td>triage / handoff</td><td>supervisor w/ routing</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <span class="ic">🧭</span>
+          <div><b>The one-liner to remember:</b> <code>orchestrator ≈ supervisor ≈ manager ≈ lead agent</code> — same coordinator role, different house styles. But attribute each term to its owner.</div>
+        </div>
       </div>
 
       <div class="card">
-        <h3>How they fit together</h3>
-        <p>These roles nest. A common production shape is: <b>Supervisor → Orchestrator → Domain sub-agents</b>. The supervisor picks the workflow, the orchestrator runs its steps, and each step is a specialized sub-agent. Sometimes the supervisor <i>is</i> the orchestrator; sometimes a sub-agent is itself a supervisor over its own team (recursion).</p>
+        <h3>Traps this table fixes</h3>
         <div class="grid-2">
-          <div class="mini"><h4>Supervisor vs Orchestrator — the key distinction</h4><ul>
-            <li><b>Supervisor</b> = dynamic <i>routing</i>. Decides at runtime.</li>
-            <li><b>Orchestrator</b> = defined <i>process</i>. Follows a plan (which may be generated).</li>
-            <li>Routing answers "who?"; orchestration answers "in what order, with what handoffs?"</li>
-          </ul></div>
-          <div class="mini"><h4>Design rules of thumb</h4><ul>
-            <li>Keep sub-agent context <i>narrow</i> — pass the task, not the whole history.</li>
-            <li>Prefer many small specialists over one do-everything agent.</li>
-            <li>Make handoffs <i>structured</i> (typed outputs) so steps compose.</li>
-            <li>Give the top agent a clear stop condition.</li>
-          </ul></div>
+          <div class="mini"><h4>❌ “Anthropic calls it a supervisor”</h4><ul><li>They don't. Anthropic says <b>orchestrator</b> (Building Effective Agents) and <b>lead agent</b> (research system). “Supervisor” is <b>LangGraph &amp; AWS</b> vocabulary.</li></ul></div>
+          <div class="mini"><h4>❌ “Handoff is a standard term”</h4><ul><li>OpenAI's handoff = a <b>peer</b> transferring full control. LangGraph uses “handoff” for <b>any</b> transfer, including supervisor→worker. Same word, different scope.</li></ul></div>
+          <div class="mini"><h4>❌ “Orchestration = orchestrator agent”</h4><ul><li>Anthropic uses “orchestrated” even for <b>hardcoded workflows</b>. Workflow <i>orchestration</i> can be pure code; an orchestrator <i>agent</i> decides dynamically.</li></ul></div>
+          <div class="mini"><h4>❌ “Hierarchical is its own thing”</h4><ul><li>LangGraph defines <b>hierarchical = “a supervisor of supervisors”</b> — explicitly a generalization of the supervisor pattern, not a separate species.</li></ul></div>
         </div>
       </div>
     </section>
@@ -279,58 +395,53 @@
     <!-- ================= DIAGRAM ================= -->
     <section class="tab" id="diagram">
       <h2 class="section-title">The hierarchy, animated</h2>
-      <p class="section-sub">Watch a request flow down through the layers and results flow back up. Press play to animate the message path.</p>
+      <p class="section-sub">The universal hub-and-spoke shape. A goal flows down; the coordinator decomposes it, delegates to specialists, and synthesizes results back up. (Anthropic: orchestrator-workers · LangGraph: supervisor · OpenAI: manager.)</p>
       <div class="card">
         <div class="diagram-wrap">
           <svg id="arch" viewBox="0 0 760 440" width="760" height="440" role="img" aria-label="Multi-agent architecture diagram">
-            <!-- edges -->
             <path class="edge" id="e-user-sup" d="M380,60 L380,100" />
             <path class="edge" id="e-sup-orc" d="M380,150 L380,190" />
             <path class="edge" id="e-orc-d1" d="M330,240 C250,270 180,290 150,320" />
             <path class="edge" id="e-orc-d2" d="M380,250 L380,320" />
             <path class="edge" id="e-orc-d3" d="M430,240 C510,270 580,290 610,320" />
 
-            <!-- user -->
             <g>
               <rect x="315" y="20" width="130" height="40" rx="10" fill="var(--ink-soft)"></rect>
               <text x="380" y="45" text-anchor="middle" class="node-label">User goal</text>
             </g>
-            <!-- supervisor -->
             <g>
-              <rect x="300" y="100" width="160" height="50" rx="12" fill="var(--supervisor)"></rect>
-              <text x="380" y="122" text-anchor="middle" class="node-label">Supervisor</text>
-              <text x="380" y="138" text-anchor="middle" class="node-sub">routes &amp; decides</text>
+              <rect x="285" y="100" width="190" height="50" rx="12" fill="var(--supervisor)"></rect>
+              <text x="380" y="122" text-anchor="middle" class="node-label">Coordinator</text>
+              <text x="380" y="138" text-anchor="middle" class="node-sub">orchestrator · supervisor · manager</text>
             </g>
-            <!-- orchestrator -->
             <g>
               <rect x="300" y="190" width="160" height="50" rx="12" fill="var(--orchestrator)"></rect>
-              <text x="380" y="212" text-anchor="middle" class="node-label">Orchestrator</text>
-              <text x="380" y="228" text-anchor="middle" class="node-sub">sequences steps</text>
+              <text x="380" y="212" text-anchor="middle" class="node-label">Decompose &amp; delegate</text>
+              <text x="380" y="228" text-anchor="middle" class="node-sub">subtasks decided at runtime</text>
             </g>
-            <!-- domain agents -->
             <g>
               <rect x="80" y="320" width="140" height="50" rx="12" fill="var(--domain)"></rect>
-              <text x="150" y="342" text-anchor="middle" class="node-label">Research agent</text>
-              <text x="150" y="358" text-anchor="middle" class="node-sub">web · docs</text>
+              <text x="150" y="342" text-anchor="middle" class="node-label">Sub-agent</text>
+              <text x="150" y="358" text-anchor="middle" class="node-sub">research</text>
             </g>
             <g>
               <rect x="310" y="320" width="140" height="50" rx="12" fill="var(--domain)"></rect>
-              <text x="380" y="342" text-anchor="middle" class="node-label">Analysis agent</text>
-              <text x="380" y="358" text-anchor="middle" class="node-sub">reason · compute</text>
+              <text x="380" y="342" text-anchor="middle" class="node-label">Sub-agent</text>
+              <text x="380" y="358" text-anchor="middle" class="node-sub">analysis</text>
             </g>
             <g>
               <rect x="540" y="320" width="140" height="50" rx="12" fill="var(--domain)"></rect>
-              <text x="610" y="342" text-anchor="middle" class="node-label">Writer agent</text>
-              <text x="610" y="358" text-anchor="middle" class="node-sub">draft · format</text>
+              <text x="610" y="342" text-anchor="middle" class="node-label">Sub-agent</text>
+              <text x="610" y="358" text-anchor="middle" class="node-sub">writing</text>
             </g>
 
             <circle id="msgDot" class="msg-dot" r="6" cx="380" cy="60" opacity="0"></circle>
           </svg>
         </div>
         <div class="legend">
-          <span><i style="background:var(--supervisor)"></i> Supervisor</span>
-          <span><i style="background:var(--orchestrator)"></i> Orchestrator</span>
-          <span><i style="background:var(--domain)"></i> Domain sub-agent</span>
+          <span><i style="background:var(--supervisor)"></i> Coordinator</span>
+          <span><i style="background:var(--orchestrator)"></i> Decompose / delegate</span>
+          <span><i style="background:var(--domain)"></i> Sub-agent (worker)</span>
         </div>
         <div class="controls">
           <button class="btn primary" id="playDiag">▶ Animate flow</button>
@@ -340,8 +451,8 @@
 
     <!-- ================= SIMULATOR ================= -->
     <section class="tab" id="sim">
-      <h2 class="section-title">Routing simulator</h2>
-      <p class="section-sub">Pick a task and watch how the supervisor routes it, the orchestrator sequences the steps, and domain agents execute. Each task exercises a different path.</p>
+      <h2 class="section-title">Routing &amp; orchestration simulator</h2>
+      <p class="section-sub">Each task deliberately exercises a different pattern from the taxonomy — routing, orchestrator-workers, parallelization, and a decentralized handoff. Watch the coordinator decompose and the sub-agents execute.</p>
       <div class="sim-grid">
         <div class="card" style="margin:0">
           <h3 style="font-size:15px;margin-bottom:12px">Choose a task</h3>
@@ -361,14 +472,59 @@
     <!-- ================= TEST ================= -->
     <section class="tab" id="test">
       <h2 class="section-title">Test your understanding</h2>
-      <p class="section-sub">Nine scenarios. Pick the best answer — each one explains <i>why</i>. No time limit; the goal is the mental model.</p>
+      <p class="section-sub">Twelve questions grounded in the primary sources. Each explains <i>why</i> and cites who says so. The goal is the accurate mental model, not a score.</p>
       <div id="quizArea"></div>
+    </section>
+
+    <!-- ================= SOURCES ================= -->
+    <section class="tab" id="sources">
+      <h2 class="section-title">Sources &amp; further reading</h2>
+      <p class="section-sub">Every claim on this site traces to one of these. <span class="vbadge v-yes">verified</span> = fetched directly from the source file. <span class="vbadge v-corr">corroborated</span> = primary page was network-blocked during research; wording cross-checked across multiple summaries — confirm exact quotes against the live page.</p>
+
+      <div class="card">
+        <h3>Anthropic</h3>
+        <ul class="src-list">
+          <li><div class="st"><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building Effective Agents</a><span class="vbadge v-corr">corroborated</span></div><div class="sd">The workflow-vs-agent split and the six patterns: prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer, autonomous agent. Dec 2024.</div></li>
+          <li><div class="st"><a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">How we built our multi-agent research system</a><span class="vbadge v-corr">corroborated</span></div><div class="sd">Orchestrator-worker in practice: LeadResearcher + parallel subagents + CitationAgent. The 4× / 15× token findings and “start simple” lessons. Jun 2025.</div></li>
+          <li><div class="st"><a href="https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents" target="_blank" rel="noopener">Claude Cookbook — agent patterns (code)</a><span class="vbadge v-yes">verified</span></div><div class="sd">Runnable implementations of each pattern, including “Orchestrator-Subagents.”</div></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>LangChain / LangGraph</h3>
+        <ul class="src-list">
+          <li><div class="st"><a href="https://langchain-ai.github.io/langgraph/concepts/multi_agent/" target="_blank" rel="noopener">Multi-agent Systems (concept guide)</a><span class="vbadge v-yes">verified</span></div><div class="sd">The architecture taxonomy: Network, Supervisor, Supervisor (tool-calling), Hierarchical, Custom. Plus the handoff / <code>Command</code> mechanic.</div></li>
+          <li><div class="st"><a href="https://github.com/langchain-ai/langgraph-supervisor-py" target="_blank" rel="noopener">langgraph-supervisor</a><span class="vbadge v-yes">verified</span></div><div class="sd">Reference definition of a supervisor that “controls all communication flow and task delegation.”</div></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>OpenAI</h3>
+        <ul class="src-list">
+          <li><div class="st"><a href="https://openai.github.io/openai-agents-python/multi_agent/" target="_blank" rel="noopener">Agents SDK — Orchestration</a><span class="vbadge v-yes">verified</span></div><div class="sd">LLM-driven vs. code-driven orchestration.</div></li>
+          <li><div class="st"><a href="https://openai.github.io/openai-agents-python/handoffs/" target="_blank" rel="noopener">Agents SDK — Handoffs</a><span class="vbadge v-yes">verified</span></div><div class="sd">Handoffs as <code>transfer_to_&lt;agent&gt;</code> tools that transfer control of the turn.</div></li>
+          <li><div class="st"><a href="https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf" target="_blank" rel="noopener">A Practical Guide to Building Agents (PDF)</a><span class="vbadge v-corr">corroborated</span></div><div class="sd">The manager pattern (agents-as-tools) vs. decentralized pattern (handoffs); “start with a single agent.”</div></li>
+          <li><div class="st"><a href="https://github.com/openai/swarm" target="_blank" rel="noopener">Swarm (experimental)</a><span class="vbadge v-yes">verified</span></div><div class="sd">The two-primitive predecessor: Agents + handoffs. Educational, superseded by the Agents SDK.</div></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>AWS</h3>
+        <ul class="src-list">
+          <li><div class="st"><a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-multi-agent-collaboration.html" target="_blank" rel="noopener">Bedrock — Multi-agent collaboration</a><span class="vbadge v-corr">corroborated</span></div><div class="sd">Supervisor agent + collaborator/sub-agents; “supervisor” vs. “supervisor with routing” modes. The one vendor that uses all three term-families together.</div></li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <span class="ic">🔎</span>
+        <div>Research was done by fetching source files directly where reachable. Anthropic, the OpenAI PDF, and AWS pages were blocked by the research environment's network proxy, so their quotes were reconstructed from cross-checked summaries — accurate in substance, but verify exact wording against the live pages before quoting them elsewhere.</div>
+      </div>
     </section>
 
   </div>
 
   <footer>
-    Agent Architecture Lab · a hands-on primer on supervisor / orchestrator / sub-agent patterns.
+    Agent Architecture Lab · a sourced primer on coordinator / orchestrator / supervisor / sub-agent patterns. Terminology mapped across Anthropic, LangGraph, OpenAI &amp; AWS.
   </footer>
 
 <script>
@@ -441,57 +597,52 @@
     {
       id: "report",
       title: "“Write me a market report on EV batteries.”",
-      hint: "Multi-step: research → analyze → write",
+      hint: "Orchestrator-workers · dynamic decomposition",
       steps: [
         ["user", "b-user", "User", "Requests a market report on EV batteries."],
-        ["sup", "b-sup", "Supervisor", "Goal is broad + multi-stage. Route to the report-writing workflow via the Orchestrator."],
-        ["orc", "b-orc", "Orchestrator", "Plan: (1) gather sources, (2) analyze trends, (3) draft. Steps are ordered — step N feeds N+1."],
-        ["dom", "b-dom", "Research agent", "Pulls recent sources on battery chemistry, pricing, market share. Returns 12 structured findings."],
-        ["dom", "b-dom", "Analysis agent", "Takes the findings, computes CAGR, identifies 3 themes. Returns a structured summary."],
-        ["dom", "b-dom", "Writer agent", "Takes the analysis, drafts a 5-section report with citations."],
-        ["orc", "b-orc", "Orchestrator", "All steps succeeded. Returns the finished draft upward."],
-        ["sup", "b-sup", "Supervisor", "Reviews for completeness, delivers the report to the user. Done."]
+        ["sup", "b-sup", "Coordinator", "Broad, open-ended goal. This calls for orchestrator-workers — I'll decide the subtasks from the request itself, not a fixed template."],
+        ["orc", "b-orc", "Decompose", "Runtime plan: (1) gather sources, (2) analyze trends, (3) draft. Because the input drives it, a different topic would yield different subtasks."],
+        ["dom", "b-dom", "Research sub-agent", "Pulls recent sources on chemistry, pricing, market share. Returns 12 structured findings."],
+        ["dom", "b-dom", "Analysis sub-agent", "Takes the findings, computes CAGR, identifies 3 themes. Returns a structured summary."],
+        ["dom", "b-dom", "Writer sub-agent", "Takes the analysis, drafts a 5-section report with citations."],
+        ["sup", "b-sup", "Coordinator", "Synthesizes the workers' outputs into the final report and delivers it. (Anthropic: this is the orchestrator-workers pattern.)"]
       ]
     },
     {
       id: "sql",
       title: "“How many orders shipped late last month?”",
-      hint: "Single specialist — no orchestration needed",
+      hint: "Routing · classify → one path (no synthesis)",
       steps: [
-        ["user", "b-user", "User", "Asks a data question about late shipments."],
-        ["sup", "b-sup", "Supervisor", "This is one focused domain task. No workflow required — route straight to the SQL agent."],
-        ["dom", "b-dom", "SQL agent", "Writes and runs a query against the orders table filtering ship_date > due_date."],
-        ["dom", "b-dom", "SQL agent", "Returns: 1,284 late orders (7.3% of last month)."],
-        ["sup", "b-sup", "Supervisor", "Formats the number into a sentence and answers. No orchestrator was needed."]
-      ]
-    },
-    {
-      id: "support",
-      title: "“My payment failed and I want a refund.”",
-      hint: "Routing + a failure/retry branch",
-      steps: [
-        ["user", "b-user", "User", "Reports a failed payment and requests a refund."],
-        ["sup", "b-sup", "Supervisor", "Two intents detected: diagnose payment + issue refund. Hand to the Orchestrator."],
-        ["orc", "b-orc", "Orchestrator", "Plan: (1) Billing agent checks the charge, (2) Refund agent processes it — only if step 1 confirms a real charge."],
-        ["dom", "b-dom", "Billing agent", "Looks up the transaction. Finds a duplicate charge. Confirms it's refundable."],
-        ["dom", "b-dom", "Refund agent", "Attempts refund… gateway timeout. ⚠️ Returns an error."],
-        ["orc", "b-orc", "Orchestrator", "Step 2 failed. Retry policy: wait + retry once."],
-        ["dom", "b-dom", "Refund agent", "Retry succeeds. Refund of $49 issued."],
-        ["sup", "b-sup", "Supervisor", "Confirms resolution to the user with the refund ID. Done."]
+        ["user", "b-user", "User", "Asks a focused data question."],
+        ["sup", "b-sup", "Coordinator", "Routing pattern: classify the intent (‘analytics query’) and send it down ONE specialized path. No decomposition, no fan-out."],
+        ["dom", "b-dom", "SQL sub-agent", "Writes and runs a query filtering ship_date > due_date. Returns: 1,284 late orders (7.3%)."],
+        ["sup", "b-sup", "Coordinator", "Returns the answer as-is. Note: routing is lighter than orchestration — there was nothing to synthesize."]
       ]
     },
     {
       id: "parallel",
       title: "“Compare our pricing to 3 competitors.”",
-      hint: "Orchestrator fans out in parallel",
+      hint: "Parallelization · sectioning (fixed split)",
       steps: [
-        ["user", "b-user", "User", "Wants a pricing comparison across 3 competitors."],
-        ["sup", "b-sup", "Supervisor", "Route to a comparison workflow."],
-        ["orc", "b-orc", "Orchestrator", "These 3 lookups are independent — fan them out in parallel, then join."],
-        ["dom", "b-dom", "Research agent ×3", "Three instances each fetch one competitor's pricing simultaneously."],
-        ["orc", "b-orc", "Orchestrator", "All three returned. Joins results into one table, then calls the writer."],
-        ["dom", "b-dom", "Writer agent", "Produces a side-by-side comparison with a recommendation."],
-        ["sup", "b-sup", "Supervisor", "Delivers the comparison. Note: parallel fan-out cut latency ~3×."]
+        ["user", "b-user", "User", "Wants a 3-competitor pricing comparison."],
+        ["sup", "b-sup", "Coordinator", "The split is known up front — 3 identical lookups. This is parallelization/sectioning (fixed in code), not dynamic decomposition."],
+        ["orc", "b-orc", "Fan out", "Dispatches 3 independent sub-agents simultaneously to cut latency."],
+        ["dom", "b-dom", "Research sub-agent ×3", "Each instance fetches one competitor's pricing in parallel."],
+        ["orc", "b-orc", "Join", "All three returned. Joins into one table, then calls the writer."],
+        ["dom", "b-dom", "Writer sub-agent", "Produces a side-by-side comparison with a recommendation."],
+        ["sup", "b-sup", "Coordinator", "Delivers it. Anthropic reports lead agents typically spawn 3–5 subagents in parallel like this."]
+      ]
+    },
+    {
+      id: "handoff",
+      title: "“Actually, transfer me to billing.”",
+      hint: "Decentralized · handoff (control transfer)",
+      steps: [
+        ["user", "b-user", "User", "Mid-conversation, asks to be moved to billing."],
+        ["sup", "b-sup", "Triage agent", "This is a decentralized handoff, not delegation. I won't stay in control — I'll hand the whole conversation to the billing agent."],
+        ["dom", "b-dom", "Billing agent", "Receives the conversation via a transfer_to_billing tool call. It is now the active agent for the rest of the turn (OpenAI handoff semantics)."],
+        ["dom", "b-dom", "Billing agent", "Owns the conversation, resolves the billing issue directly with the user. The triage agent does NOT get a report back."],
+        ["sup", "b-sup", "Note", "Contrast: in delegation (manager/supervisor), the coordinator keeps control and the worker reports back. A handoff gives ownership away."]
       ]
     }
   ];
@@ -519,7 +670,7 @@
   });
 
   function labelFor(cls) {
-    return cls === "b-sup" ? "Supervisor" : cls === "b-orc" ? "Orchestrator"
+    return cls === "b-sup" ? "Coordinator" : cls === "b-orc" ? "Flow"
       : cls === "b-dom" ? "Sub-agent" : "User";
   }
   function addLine(step, delay) {
@@ -541,7 +692,7 @@
     running = true; runBtn.disabled = true; clearBtn.disabled = true;
     simLog.innerHTML = "";
     for (var i = 0; i < selected.steps.length; i++) {
-      await addLine(selected.steps[i], i === 0 ? 100 : 720);
+      await addLine(selected.steps[i], i === 0 ? 100 : 780);
     }
     running = false; runBtn.disabled = false; clearBtn.disabled = false;
   });
@@ -553,103 +704,148 @@
   /* ---------- Quiz ---------- */
   var questions = [
     {
-      q: "A user asks a single, focused question: “What's our churn rate this quarter?” What's the simplest correct handling?",
+      q: "Which term does Anthropic use for the central coordinating agent?",
       opts: [
-        "Supervisor routes it directly to one domain (analytics) sub-agent",
-        "Orchestrator builds a 5-step pipeline",
-        "Spawn one sub-agent per word in the question",
-        "The supervisor answers it alone without any sub-agent"
+        "Supervisor",
+        "Orchestrator (and “lead agent” in their research system)",
+        "Manager",
+        "Router"
+      ],
+      correct: 1,
+      why: "Anthropic says “orchestrator-workers” and “lead agent.” It never uses “supervisor” — that's LangGraph and AWS vocabulary. Attributing “supervisor” to Anthropic is a common error.",
+      src: "Anthropic, Building Effective Agents / multi-agent research system"
+    },
+    {
+      q: "What is the defining difference between parallelization (sectioning) and orchestrator-workers?",
+      opts: [
+        "Orchestrator-workers is always faster",
+        "In sectioning the split is fixed in code; in orchestrator-workers the coordinator decides the subtasks dynamically at runtime",
+        "Sectioning can't run in parallel",
+        "They are the same pattern with different names"
+      ],
+      correct: 1,
+      why: "Anthropic's line: orchestrator-workers means “the subtasks aren't pre-defined, but determined by the orchestrator based on the specific input.” Sectioning's split is decided in advance. That runtime-vs-hardcoded decomposition is the whole distinction.",
+      src: "Anthropic, Building Effective Agents"
+    },
+    {
+      q: "In Anthropic's taxonomy, what does the “routing” workflow do?",
+      opts: [
+        "Decomposes a task, fans out to many workers, and synthesizes",
+        "Classifies an input and directs it to ONE specialized followup path",
+        "Runs the same prompt several times and votes",
+        "Transfers conversation ownership to a peer agent"
+      ],
+      correct: 1,
+      why: "Routing “classifies an input and directs it to a specialized followup task” — one path, no fan-out, no synthesis. That's lighter than a supervisor/orchestrator, which decomposes and synthesizes. AWS even ships them as separate modes.",
+      src: "Anthropic, Building Effective Agents; AWS Bedrock"
+    },
+    {
+      q: "Per Anthropic, what separates a “workflow” from an “agent”?",
+      opts: [
+        "Workflows use tools; agents don't",
+        "Workflows follow predefined code paths; agents let the LLM dynamically direct its own process",
+        "Agents are always multi-agent; workflows are single",
+        "There is no defined difference"
+      ],
+      correct: 1,
+      why: "Workflows = “LLMs and tools orchestrated through predefined code paths.” Agents = “LLMs dynamically direct their own processes and tool usage.” Most online “agent” diagrams are actually workflows by this definition.",
+      src: "Anthropic, Building Effective Agents"
+    },
+    {
+      q: "In OpenAI's framing, how does the “manager pattern” differ mechanically from the “decentralized pattern”?",
+      opts: [
+        "Manager = agents-as-tools (tool calls); decentralized = handoffs (control transfer)",
+        "Manager is code; decentralized is an LLM",
+        "They're identical",
+        "Manager can't call specialized agents"
       ],
       correct: 0,
-      why: "One focused task in one domain needs routing, not orchestration. Adding a pipeline is over-engineering. The supervisor delegates to the specialist and returns the result."
+      why: "OpenAI's load-bearing distinction: in the manager pattern edges are tool calls (agents-as-tools, one agent keeps control); in the decentralized pattern edges are handoffs (a peer takes over the conversation).",
+      src: "OpenAI, A Practical Guide to Building Agents"
     },
     {
-      q: "What most clearly distinguishes a supervisor from an orchestrator?",
+      q: "What does a “handoff” mean in OpenAI's Agents SDK — and how is it different from delegation?",
       opts: [
-        "A supervisor is faster",
-        "A supervisor decides *who* handles a task (dynamic routing); an orchestrator runs a defined multi-step *process*",
-        "An orchestrator can't call sub-agents",
-        "There is no real difference"
+        "A handoff is just a synonym for delegation",
+        "A handoff transfers control and conversation ownership to a peer that finishes the turn; delegation keeps the coordinator in control and expects a report back",
+        "A handoff only works between code, not LLMs",
+        "Delegation transfers ownership; handoff keeps control"
       ],
       correct: 1,
-      why: "Routing (‘who?’) vs. process (‘what steps, in what order, with what handoffs?’). A supervisor is a router/decider; an orchestrator is a workflow engine. Systems often use both."
+      why: "In OpenAI's model a handoff is exposed as a transfer_to_<agent> tool; the target “becomes the active agent for the rest of the turn.” Delegation (manager/supervisor) retains control and expects the worker to report back. Different control-flow semantics.",
+      src: "OpenAI, Agents SDK — Handoffs"
     },
     {
-      q: "Why give a domain sub-agent a *narrow* context (just its sub-task) instead of the whole conversation?",
+      q: "Which ecosystem most strongly owns the word “supervisor,” and how does it define “hierarchical”?",
       opts: [
-        "To save the user money only",
-        "Because sub-agents legally can't see history",
-        "Narrow, focused context reduces distraction and error, and makes the agent testable in isolation",
-        "It has no effect on quality"
+        "OpenAI; hierarchical = handoffs",
+        "Anthropic; hierarchical = parallel workers",
+        "LangGraph; hierarchical = “a supervisor of supervisors”",
+        "AWS; hierarchical = routing"
       ],
       correct: 2,
-      why: "Focused context is one of the biggest quality levers. Less irrelevant material means fewer mistakes, and a narrow contract makes the sub-agent independently testable and replaceable."
+      why: "LangGraph's taxonomy centers “supervisor,” and defines hierarchical explicitly as “a supervisor of supervisors” — a generalization of the supervisor architecture, not a separate species. (AWS also uses “supervisor.”)",
+      src: "LangGraph, Multi-agent Systems"
     },
     {
-      q: "In an orchestrated pipeline, step 2 (refund) fails with a gateway timeout. Whose job is it to decide retry-vs-reroute?",
+      q: "Is a “sub-agent” by definition a smaller or weaker model than the coordinator?",
       opts: [
-        "The failing sub-agent decides on its own",
-        "The user",
-        "The orchestrator, which owns the workflow's control flow and error policy",
-        "Nobody — the whole task just fails"
+        "Yes — sub-agent means a lightweight model",
+        "No — sub-agent names a role in a hierarchy (delegated-to, scoped, reports up), independent of size",
+        "Yes — sub-agents can't use tools",
+        "Only if there's no orchestrator"
+      ],
+      correct: 1,
+      why: "“Sub-agent” denotes a role, not a capability class. Anthropic happened to run subagents on Sonnet with an Opus lead, but that's an implementation choice — the definition is about hierarchy, not size.",
+      src: "Anthropic, multi-agent research system"
+    },
+    {
+      q: "Roughly how much more token usage does Anthropic report for multi-agent systems vs. plain chat?",
+      opts: [
+        "About the same",
+        "About 2×",
+        "About 15× (and single agents ~4×)",
+        "About 100×"
       ],
       correct: 2,
-      why: "Error handling and retries are the orchestrator's responsibility because it owns the process and its state. The sub-agent just reports success/failure; coordination lives one level up."
+      why: "“Agents typically use about 4× more tokens than chat interactions, and multi-agent systems use about 15× more tokens than chats.” Anthropic also found token usage alone explains ~80% of performance variance.",
+      src: "Anthropic, multi-agent research system"
     },
     {
-      q: "Three competitor lookups are fully independent. What should a good orchestrator do?",
+      q: "According to Anthropic, which kind of task is multi-agent LEAST suited to?",
       opts: [
-        "Run them strictly one after another",
-        "Fan them out in parallel, then join the results",
-        "Pick just one and skip the rest",
-        "Ask the supervisor to do them itself"
+        "Breadth-first web research",
+        "Tightly-coupled work like coding, where subtasks share state",
+        "Tasks needing many tools",
+        "Work exceeding one context window"
       ],
       correct: 1,
-      why: "Independent steps should run in parallel to cut latency, then be joined before the next stage. Recognizing independence in the plan is a core orchestration skill."
+      why: "Anthropic kept most coding single-agent: coding subtasks are tightly coupled and share state, so they don't parallelize cleanly. Multi-agent shines on parallelizable, breadth-first, high-value tasks.",
+      src: "Anthropic, multi-agent research system"
     },
     {
-      q: "Which is the biggest risk of a single central supervisor?",
+      q: "Both Anthropic and OpenAI give the same top-level advice about where to start. What is it?",
       opts: [
-        "It uses too little memory",
-        "It's a bottleneck and single point of failure, and can loop if it can't decide",
-        "It makes sub-agents too smart",
-        "It can never be extended"
+        "Always start with a full multi-agent system",
+        "Start with the simplest solution / a single agent, and add multi-agent complexity only when the task demands it",
+        "Start with as many agents as possible for robustness",
+        "Never use more than one agent"
       ],
       correct: 1,
-      why: "Centralization concentrates risk: throughput bottleneck, single point of failure, and decision loops when routing is ambiguous. Mitigations include clear stop conditions and fallbacks."
+      why: "Both advise starting simple — a single agent looping over tool calls — and graduating to multi-agent only when complexity requires it. Anthropic quantifies the cost you're taking on (~15× tokens).",
+      src: "Anthropic, Building Effective Agents; OpenAI, Practical Guide"
     },
     {
-      q: "A sub-agent is itself complex enough to manage its own team of smaller agents. Is that valid?",
+      q: "“Orchestration” and “an orchestrator agent” are the same thing. True?",
       opts: [
-        "No — agents can never contain other agents",
-        "Yes — roles nest recursively; a sub-agent can act as a supervisor over its own sub-agents",
-        "Only if there's no orchestrator anywhere",
-        "Only in exactly two-layer systems"
+        "True — always interchangeable",
+        "False — Anthropic uses “orchestrated” even for hardcoded workflows; workflow orchestration can be pure code, while an orchestrator agent decides dynamically",
+        "True — only LLMs can orchestrate",
+        "False — orchestration doesn't exist in workflows"
       ],
       correct: 1,
-      why: "These roles are relative, not fixed. A domain sub-agent can be a supervisor within its own subsystem. Recursion/nesting is how large systems stay modular."
-    },
-    {
-      q: "Why prefer *structured* (typed) outputs for handoffs between agents?",
-      opts: [
-        "It looks nicer in logs",
-        "So one step's output reliably composes as the next step's input, without brittle text parsing",
-        "Structured output is required by law",
-        "It makes agents run in parallel automatically"
-      ],
-      correct: 1,
-      why: "Typed/structured handoffs let steps compose predictably. Passing free-form prose forces the next agent to re-parse and guess, which is where multi-agent pipelines commonly break."
-    },
-    {
-      q: "You have one giant prompt trying to research, analyze, and write a report all at once, and quality is poor. Best refactor?",
-      opts: [
-        "Make the prompt even longer",
-        "Split into specialized sub-agents (research, analysis, writing) coordinated by an orchestrator",
-        "Remove all instructions",
-        "Run the same prompt 10 times and vote"
-      ],
-      correct: 1,
-      why: "Decomposing a do-everything prompt into focused specialists with a coordinator is the canonical multi-agent win: each agent gets narrow context and a clear contract, and the orchestrator handles sequencing."
+      why: "Anthropic describes workflows as having “LLMs and tools orchestrated through predefined code paths.” So orchestration (the flow) can be hardcoded; an orchestrator agent is specifically one that decides subtasks dynamically. Keep the two senses separate.",
+      src: "Anthropic, Building Effective Agents; OpenAI, Agents SDK"
     }
   ];
 
@@ -686,7 +882,8 @@
         });
         if (chosen === q.correct) score++;
         var ex = document.getElementById("explain");
-        ex.innerHTML = (chosen === q.correct ? "✅ <b>Correct.</b> " : "❌ <b>Not quite.</b> ") + q.why;
+        ex.innerHTML = (chosen === q.correct ? "✅ <b>Correct.</b> " : "❌ <b>Not quite.</b> ") + q.why +
+          '<cite>Source: ' + q.src + '</cite>';
         ex.classList.add("show");
         document.getElementById("nextBtn").style.display = "inline-block";
       });
@@ -702,10 +899,10 @@
 
   function renderResult() {
     var pct = Math.round(score / questions.length * 100);
-    var verdict = pct === 100 ? "Flawless — you've got the mental model." :
-      pct >= 70 ? "Strong. You understand the core trade-offs." :
-      pct >= 40 ? "Getting there — revisit the Learn tab on supervisor vs orchestrator." :
-      "Worth another pass through the Learn tab first.";
+    var verdict = pct === 100 ? "Flawless — you've got the accurate, sourced model." :
+      pct >= 75 ? "Strong. You understand the real distinctions and the vocabulary map." :
+      pct >= 45 ? "Getting there — revisit the Vocabulary tab and routing-vs-orchestration." :
+      "Worth another pass through Learn + Vocabulary first.";
     quizArea.innerHTML =
       '<div class="card" style="text-align:center">' +
       '<div class="q-num">Result</div>' +

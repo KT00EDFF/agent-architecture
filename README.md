@@ -1,6 +1,8 @@
 # Agent Architecture Lab
 
-An interactive, single-page site for **learning and testing your understanding of multi-agent systems** — specifically the **supervisor**, **orchestrator**, and **sub-agent / domain agent** patterns.
+An interactive, single-page site for **learning and testing your understanding of multi-agent systems** — the coordinator (**orchestrator / supervisor / manager**), **sub-agent / worker**, and the **workflow-vs-agent** distinction.
+
+Content is **grounded in and cited to the primary sources**: Anthropic, LangChain/LangGraph, OpenAI, and AWS. A key theme of the site is that these companies use *different words for the same ideas*, and it maps them explicitly.
 
 🔗 **Live site:** once GitHub Pages is enabled, this is served at
 `https://<your-username>.github.io/agent-architecture/`
@@ -11,16 +13,23 @@ The whole app is one self-contained `index.html` (no build step, no dependencies
 
 | Tab | What it does |
 |-----|--------------|
-| 📖 **Learn** | Plain-language breakdown of each role — what it thinks about, its superpower, its risk, and an analogy. Plus how the roles nest (`Supervisor → Orchestrator → Sub-agents`). |
-| 🗺️ **Diagram** | An animated architecture diagram showing a request flowing down the hierarchy and results flowing back up. |
-| 🎛️ **Simulator** | Pick a task and watch the message trace: how the supervisor routes, how the orchestrator sequences (including parallel fan-out and retry-on-failure), and how domain agents execute. Four contrasting tasks exercise different paths. |
-| 🧠 **Test** | A 9-question quiz with instant, explained feedback and a score at the end. |
+| 📖 **Learn** | Anthropic's workflow-vs-agent split, the six building-block patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer, autonomous agent), the three roles with cited definitions, and the honest cost/benefit (token multipliers, when *not* to go multi-agent). |
+| 🔤 **Vocabulary** | The core correction: a side-by-side table mapping *coordinator / worker / pattern* terms across Anthropic, LangGraph, OpenAI, and AWS — plus the common attribution traps it fixes. |
+| 🗺️ **Diagram** | An animated hub-and-spoke architecture diagram (coordinator → decompose/delegate → sub-agents). |
+| 🎛️ **Simulator** | Four tasks, each exercising a *different pattern from the taxonomy*: orchestrator-workers (dynamic decomposition), routing (classify → one path), parallelization/sectioning, and a decentralized handoff (control transfer). |
+| 🧠 **Test** | A 12-question quiz; every answer explains *why* and **cites the source**. |
+| 📚 **Sources** | Every reference, each tagged *verified* (fetched from source) or *corroborated* (page was network-blocked during research; confirm exact wording against the live page). |
 
-## The core distinction it teaches
+## The core distinctions it teaches
 
-- **Supervisor** = dynamic **routing**. Decides *who* handles the task at runtime.
-- **Orchestrator** = defined **process**. Runs an ordered plan, handles handoffs, retries, and parallelism.
-- **Sub-agent / domain agent** = the **specialist** that does the focused work with narrow context.
+- **Coordinator role has four names.** `orchestrator ≈ supervisor ≈ manager ≈ lead agent` — same role, different vendor vocabularies. (Notably, **Anthropic never says "supervisor"** — it says *orchestrator* / *lead agent*; "supervisor" is LangGraph/AWS.)
+- **Workflow vs. agent** (Anthropic): workflows follow *predefined code paths*; agents let the LLM *dynamically direct its own process*.
+- **Routing ≠ orchestrator-workers.** Routing classifies → one path; orchestrator-workers *dynamically decomposes* → many workers → synthesizes.
+- **Handoff ≠ delegation.** A handoff transfers control/ownership to a peer; delegation keeps the coordinator in control and expects a report back.
+
+## A note on sourcing
+
+Where the research environment could reach a source directly (LangGraph & OpenAI repo docs, Anthropic cookbook), quotes are **verbatim-verified**. Anthropic's blog posts, the OpenAI PDF, and AWS docs were blocked by the network proxy during research, so those quotes are **corroborated** across multiple summaries — accurate in substance, but the Sources tab flags them so you can confirm exact wording against the live pages.
 
 ## Enabling GitHub Pages
 
