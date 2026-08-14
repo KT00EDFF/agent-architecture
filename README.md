@@ -17,6 +17,7 @@ The whole app is one self-contained `index.html` — no build step, no dependenc
 | 🔤 **Vocabulary** | A **six-vendor** table mapping coordinator / worker / pattern / handoff / routing terms, the common attribution traps, and a **currency table** of terminology that recently changed. |
 | 🧱 **Layering** | Can you have a supervisor *and* an orchestrator in one flow? The three documented splits — by **altitude**, **determinism**, and **function** — plus the transform-vs-relay test for whether a layer earns its place. |
 | ⚔️ **The Debate** | The real argument: Cognition's *Don't Build Multi-Agents* vs. Anthropic's orchestrator-worker results, Harrison Chase's read-vs-write reconciliation, **Cognition's April 2026 public revision**, where experts still disagree, and what a 2024-era explainer gets wrong. |
+| 🧩 **Blueprints** | **Copy-pasteable JSON agent definitions with real system prompts** — one per simulator trace, cross-linked both ways. Plus reusable prompt fragments (3 coordinator / 3 worker / 3 judge variants) and four domain configs. Every JSON block is validated and parses. |
 | 🗺️ **Diagram** | Animated hub-and-spoke architecture showing decomposition down and distilled summaries back up. |
 | 🎛️ **Simulator** | Six traces, each exercising a different pattern: orchestrator-workers, routing, parallelization, decentralized handoff, the **fresh-context judge**, and the parallel-write **anti-pattern**. |
 | 🧠 **Test** | 18 questions; every answer explains *why* and cites the source. |
@@ -31,6 +32,22 @@ The whole app is one self-contained `index.html` — no build step, no dependenc
 - **Sub-agents are a context-management primitive**, not a parallelism one. They exist to keep exploration out of the parent's context window and must return a *distilled* answer.
 - **Decision context should be shared; working context should be isolated.** This one distinction dissolves most of the 2025 multi-agent debate.
 - **Single-threaded writes.** Parallelize reads; keep writes in one agent. Every pattern that survived to 2026 obeys this.
+
+## The blueprints
+
+Seven validated JSON configs, each pairing a topology with system prompts that encode the lessons above rather than generic role-play:
+
+| Blueprint | Pattern | The idea it demonstrates |
+|---|---|---|
+| `research-orchestrator.json` | orchestrator-workers | A 4-field delegation contract (objective / scope / **exclusions** / format) and “you are a context filter, not a pipe.” |
+| `analytics-router.json` | routing | “A router that answers is a router you can no longer reason about.” |
+| `competitor-scan.json` | parallelization | Identical workers, code-decided split, comparison written single-threaded. |
+| `support-handoff.json` | handoff | The `promises_made` payload field — the most-skipped field in real handoff systems. |
+| `fresh-context-judge.json` | evaluator | Default-FAIL rubric with evidence gates, `must_not_receive`, and `forbidden_tools`. |
+| `DO-NOT-SHIP.json` | ⚠️ anti-pattern | Parallel writers, annotated inline with where and why it breaks — plus three fixes. |
+| `domain-variants.json` | — | Support / research / engineering / analytics, each recommending a *different* topology. |
+
+Each blueprint links to its Simulator trace and vice versa. The schema is vendor-neutral, with a mapping table to the OpenAI, Google ADK, LangGraph, and Microsoft equivalents.
 
 ## A note on sourcing
 

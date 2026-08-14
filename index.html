@@ -150,6 +150,50 @@
   table.simple thead th { background: var(--panel-2); font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
   table.simple tbody tr:last-child td { border-bottom: none; }
 
+  /* Code / JSON blocks */
+  .code-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 8px 12px; background: var(--panel-2); border: 1px solid var(--line);
+    border-bottom: none; border-radius: 10px 10px 0 0; flex-wrap: wrap;
+  }
+  .code-head .fname { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); font-weight: 600; }
+  .code-head .acts { display: flex; gap: 6px; }
+  .mini-btn {
+    appearance: none; border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft);
+    font: inherit; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 7px; cursor: pointer; transition: .15s;
+  }
+  .mini-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .mini-btn.ok { color: var(--good); border-color: var(--good); }
+  pre.code {
+    margin: 0 0 14px; padding: 14px 16px; overflow-x: auto;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 0 0 10px 10px;
+    font-family: var(--mono); font-size: 12.6px; line-height: 1.6; tab-size: 2;
+  }
+  pre.code code { background: none; padding: 0; font-size: inherit; }
+  .j-key { color: #7c3aed; } .j-str { color: #0f766e; }
+  .j-num { color: #b45309; } .j-lit { color: #be123c; } .j-cmt { color: var(--ink-soft); font-style: italic; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .j-key { color: #c4b5fd; }
+    :root:not([data-theme="light"]) .j-str { color: #5eead4; }
+    :root:not([data-theme="light"]) .j-num { color: #fcd34d; }
+    :root:not([data-theme="light"]) .j-lit { color: #fda4af; }
+  }
+  :root[data-theme="dark"] .j-key { color: #c4b5fd; }
+  :root[data-theme="dark"] .j-str { color: #5eead4; }
+  :root[data-theme="dark"] .j-num { color: #fcd34d; }
+  :root[data-theme="dark"] .j-lit { color: #fda4af; }
+
+  .bp-card { scroll-margin-top: 70px; }
+  .bp-card.flash { animation: flashbp 1.4s ease; }
+  @keyframes flashbp {
+    0%, 100% { box-shadow: var(--shadow); }
+    25%, 60% { box-shadow: 0 0 0 3px var(--accent), var(--shadow); }
+  }
+  .why { display: grid; gap: 8px; margin-top: 4px; }
+  .why-item { display: flex; gap: 10px; font-size: 14px; padding: 9px 12px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 9px; }
+  .why-item .n { font-weight: 700; color: var(--accent); flex: none; }
+  .linkrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
   .callout {
     display: flex; gap: 12px; padding: 14px 16px; border-radius: 12px;
     background: color-mix(in srgb, var(--warn) 12%, var(--panel)); border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--line));
@@ -274,6 +318,7 @@
     <button class="tab-btn" data-tab="vocab">🔤 Vocabulary</button>
     <button class="tab-btn" data-tab="layering">🧱 Layering</button>
     <button class="tab-btn" data-tab="debate">⚔️ The Debate</button>
+    <button class="tab-btn" data-tab="blueprints">🧩 Blueprints</button>
     <button class="tab-btn" data-tab="diagram">🗺️ Diagram</button>
     <button class="tab-btn" data-tab="sim">🎛️ Simulator</button>
     <button class="tab-btn" data-tab="test">🧠 Test</button>
@@ -774,6 +819,540 @@
       </div>
     </section>
 
+    <!-- ================= BLUEPRINTS ================= -->
+    <section class="tab" id="blueprints">
+      <h2 class="section-title">Blueprints — what these actually look like in JSON</h2>
+      <p class="section-sub">One blueprint per simulator trace. Each is a vendor-neutral agent definition you can adapt, with the system prompts written to encode the lessons from the Debate tab — not generic role-play.</p>
+
+      <div class="card">
+        <h3>How to read these</h3>
+        <div class="grid-2">
+          <div class="mini"><h4>The schema is neutral</h4><ul>
+            <li><code>role</code> — coordinator · worker · judge</li>
+            <li><code>sub_agents</code> — delegated-to children (Google ADK's actual param name)</li>
+            <li><code>handoffs</code> — peers that can take over the turn (OpenAI semantics)</li>
+            <li><code>output_contract</code> — what the agent must return, and how big</li>
+            <li><code>context_policy</code> — what this agent may and may not see</li>
+          </ul></div>
+          <div class="mini"><h4>Mapping to your SDK</h4><ul>
+            <li><b>OpenAI</b>: <code>sub_agents</code> → agents-as-tools; <code>handoffs</code> → <code>handoffs=[...]</code></li>
+            <li><b>Google ADK</b>: <code>sub_agents</code> maps 1:1; handoff = <code>transfer_to_agent()</code></li>
+            <li><b>LangGraph</b>: coordinator → supervisor node; handoff → <code>Command(goto=...)</code></li>
+            <li><b>Microsoft</b>: coordinator → Magentic manager; handoff → Handoff orchestration</li>
+          </ul></div>
+        </div>
+        <div class="callout info">
+          <span class="ic">🎯</span>
+          <div><b>The thing to steal from these is the </b><code>output_contract</code><b> and </b><code>context_policy</code>. Most published examples get the topology right and the contracts wrong — which is exactly where multi-agent systems fail in production.</div>
+        </div>
+      </div>
+
+      <!-- BP 1 -->
+      <div class="card bp-card" id="bp-report">
+        <div class="role">Blueprint 1 · orchestrator-workers</div>
+        <h3>Research report <span class="tag">dynamic decomposition</span></h3>
+        <p>The lead agent decides subtasks at runtime, fans out to read-only workers, then <b>writes the output itself in one pass</b>.</p>
+        <div class="code-head"><span class="fname">research-orchestrator.json</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>{
+  "pattern": "orchestrator-workers",
+  "writes": "single-threaded",
+  "agents": [
+    {
+      "name": "lead_researcher",
+      "role": "coordinator",
+      "model": "large",
+      "system_prompt": [
+        "You are the lead agent for a research task. You do not run searches yourself.",
+        "",
+        "DECOMPOSE AT RUNTIME. Read the query and decide what the subtasks are.",
+        "Do not apply a fixed template. A question about market sizing and a",
+        "question about a technical standard need different decompositions.",
+        "",
+        "DELEGATION CONTRACT. Every task you send a subagent MUST specify:",
+        "  1. objective        - the single question this subagent answers",
+        "  2. scope            - sources or angles to cover",
+        "  3. exclusions       - what OTHER subagents are covering, so you do not overlap",
+        "  4. output_format    - the exact shape you want back",
+        "Never send an instruction shorter than two sentences. Vague instructions",
+        "cause subagents to duplicate each other's searches or miss the target.",
+        "",
+        "SPAWN 3-5 subagents for a broad query. Fewer for a narrow one.",
+        "Subagents run in parallel and cannot see each other. Assume zero shared state.",
+        "",
+        "SYNTHESIZE YOURSELF. When findings return, you write the final report in a",
+        "single pass. Do NOT delegate writing. Parallel writing produces inconsistent",
+        "voice and conflicting assumptions.",
+        "",
+        "STOP when every objective has a grounded answer, or you have spawned two",
+        "rounds without new information."
+      ],
+      "sub_agents": ["research_subagent", "analysis_subagent"],
+      "output_contract": {
+        "type": "markdown_report",
+        "must_include": ["executive_summary", "findings_with_citations", "open_questions"]
+      }
+    },
+    {
+      "name": "research_subagent",
+      "role": "worker",
+      "model": "fast",
+      "system_prompt": [
+        "You are a research subagent with a CLEAN context window.",
+        "You can see only the task given to you. You cannot see the user's original",
+        "phrasing, the overall plan, or what other subagents are doing.",
+        "If the task seems ambiguous, state your interpretation in your output",
+        "rather than guessing silently.",
+        "",
+        "RETURN CONTRACT - this is the whole point of your existence:",
+        "  - Return AT MOST 1500 tokens.",
+        "  - Return findings, not transcripts. Never paste raw search results.",
+        "  - Every claim carries a source URL.",
+        "  - Mark confidence: verified | corroborated | speculative.",
+        "You may internally read 40k+ tokens. None of it goes back to the lead agent.",
+        "You are a context filter, not a pipe."
+      ],
+      "tools": ["web_search", "fetch_page"],
+      "context_policy": { "inherits_parent_history": false },
+      "output_contract": { "max_tokens": 1500, "format": "findings[]" }
+    },
+    {
+      "name": "analysis_subagent",
+      "role": "worker",
+      "model": "large",
+      "system_prompt": [
+        "You receive structured findings from research subagents.",
+        "Compute what is computable. Identify at most 3 themes.",
+        "Flag contradictions between findings explicitly - do not silently pick one.",
+        "Return AT MOST 1200 tokens of analysis. No prose padding."
+      ],
+      "context_policy": { "inherits_parent_history": false },
+      "output_contract": { "max_tokens": 1200, "format": "themes[]" }
+    }
+  ]
+}</code></pre>
+        <div class="why">
+          <div class="why-item"><span class="n">1</span><div><b>The 4-field delegation contract</b> exists because Anthropic found that short instructions meant “subagents misinterpreted the task or performed the exact same searches as other agents.” The <code>exclusions</code> field is the anti-overlap fix.</div></div>
+          <div class="why-item"><span class="n">2</span><div><b>“You are a context filter, not a pipe”</b> enforces the 2026 reframe — a sub-agent that returns its transcript gives you the coordination cost with none of the context savings.</div></div>
+          <div class="why-item"><span class="n">3</span><div><b>“Do NOT delegate writing”</b> is the single-threaded-write rule. Anthropic's own research system did this deliberately.</div></div>
+        </div>
+        <div class="linkrow"><button class="btn mini-btn" data-run="report">▶ Run this trace in the Simulator</button></div>
+      </div>
+
+      <!-- BP 2 -->
+      <div class="card bp-card" id="bp-sql">
+        <div class="role">Blueprint 2 · routing</div>
+        <h3>Analytics router <span class="tag">classify → one path</span></h3>
+        <p>No decomposition, no synthesis. The router's whole job is to pick a lane and get out of the way.</p>
+        <div class="code-head"><span class="fname">analytics-router.json</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>{
+  "pattern": "routing",
+  "note": "Routing is NOT supervision. There is no fan-out and nothing to synthesize.",
+  "agents": [
+    {
+      "name": "router",
+      "role": "coordinator",
+      "model": "fast",
+      "system_prompt": [
+        "You classify an incoming request and route it. You do NOT answer it.",
+        "",
+        "CATEGORIES:",
+        "  sql_agent      - questions answerable from the warehouse (counts, trends, cohorts)",
+        "  docs_agent     - questions about policy, definitions, or how a metric is defined",
+        "  escalate_human - anything involving PII access, or ambiguous after one clarification",
+        "",
+        "RULES:",
+        "  - Emit exactly one route. Never two.",
+        "  - If confidence is below 0.7, ask ONE clarifying question, then route.",
+        "  - Never attempt the answer yourself, even if it seems obvious.",
+        "    A router that answers is a router you can no longer reason about."
+      ],
+      "routes": ["sql_agent", "docs_agent", "escalate_human"],
+      "output_contract": {
+        "format": "json",
+        "schema": { "route": "string", "confidence": "number", "rationale": "string" }
+      }
+    },
+    {
+      "name": "sql_agent",
+      "role": "worker",
+      "model": "large",
+      "system_prompt": [
+        "You answer data questions against the orders warehouse.",
+        "ALWAYS: show the SQL you ran, then the result, then a one-line plain answer.",
+        "NEVER: guess a number. If the query returns empty, say so.",
+        "Cap result sets at 100 rows; aggregate rather than dumping rows."
+      ],
+      "tools": ["run_sql", "describe_schema"],
+      "output_contract": { "must_include": ["sql", "result", "plain_answer"] }
+    }
+  ]
+}</code></pre>
+        <div class="why">
+          <div class="why-item"><span class="n">1</span><div><b>“A router that answers is a router you can no longer reason about.”</b> Routers that sometimes answer inline destroy your ability to trace and evaluate the system.</div></div>
+          <div class="why-item"><span class="n">2</span><div><b>Structured route output</b> makes the decision loggable and evaluable — you can measure routing accuracy separately from answer quality.</div></div>
+        </div>
+        <div class="linkrow"><button class="btn mini-btn" data-run="sql">▶ Run this trace in the Simulator</button></div>
+      </div>
+
+      <!-- BP 3 -->
+      <div class="card bp-card" id="bp-parallel">
+        <div class="role">Blueprint 3 · parallelization (sectioning)</div>
+        <h3>Competitor scan <span class="tag">fixed split, in code</span></h3>
+        <p>The split is known in advance, so it lives in code — not in an LLM's judgment. One worker prompt, parameterized N ways.</p>
+        <div class="code-head"><span class="fname">competitor-scan.json</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>{
+  "pattern": "parallelization/sectioning",
+  "distinction": "The split is hardcoded. If an LLM chose the split, this would be orchestrator-workers.",
+  "fan_out": {
+    "over": "competitors",
+    "values": ["acme", "globex", "initech"],
+    "worker": "pricing_scout",
+    "join": "collect_all"
+  },
+  "agents": [
+    {
+      "name": "pricing_scout",
+      "role": "worker",
+      "model": "fast",
+      "instances": 3,
+      "system_prompt": [
+        "You research the public pricing of exactly ONE company: {{competitor}}.",
+        "",
+        "You are one of several identical scouts running in parallel on different",
+        "companies. You cannot see the others. Do not comment on other companies,",
+        "do not compare, do not recommend. Comparison happens downstream.",
+        "",
+        "RETURN a pricing table only:",
+        "  tier_name | monthly_usd | annual_usd | seat_minimum | notable_limits | source_url",
+        "If a tier is 'contact sales', record it as null with a note. Do not estimate.",
+        "MAX 800 tokens."
+      ],
+      "tools": ["web_search", "fetch_page"],
+      "context_policy": { "inherits_parent_history": false, "sees_sibling_output": false },
+      "output_contract": { "max_tokens": 800, "format": "pricing_rows[]" }
+    },
+    {
+      "name": "comparison_writer",
+      "role": "coordinator",
+      "model": "large",
+      "system_prompt": [
+        "You receive N pricing tables collected in parallel.",
+        "Write the comparison yourself in a single pass - this is a WRITE step",
+        "and must not be parallelized.",
+        "Normalize currencies and billing periods before comparing.",
+        "Where a scout returned null, say 'not published' - never interpolate."
+      ],
+      "output_contract": { "format": "comparison_table + recommendation" }
+    }
+  ]
+}</code></pre>
+        <div class="why">
+          <div class="why-item"><span class="n">1</span><div><b>“Do not compare, do not recommend”</b> keeps workers on reads. The moment a worker starts forming an opinion about the whole, you've created the conflicting-assumptions problem.</div></div>
+          <div class="why-item"><span class="n">2</span><div><b><code>"instances": 3</code> with one prompt</b> is the tell that this is sectioning, not orchestrator-workers. Identical workers, code-decided split.</div></div>
+        </div>
+        <div class="linkrow"><button class="btn mini-btn" data-run="parallel">▶ Run this trace in the Simulator</button></div>
+      </div>
+
+      <!-- BP 4 -->
+      <div class="card bp-card" id="bp-handoff">
+        <div class="role">Blueprint 4 · decentralized handoff</div>
+        <h3>Support triage <span class="tag">control transfer, not delegation</span></h3>
+        <p>The receiving agent <b>owns the conversation</b> afterwards. Nothing reports back.</p>
+        <div class="code-head"><span class="fname">support-handoff.json</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>{
+  "pattern": "decentralized/handoff",
+  "semantics": "Control and conversation ownership transfer. The sender is out of the loop.",
+  "agents": [
+    {
+      "name": "triage_agent",
+      "role": "coordinator",
+      "model": "fast",
+      "system_prompt": [
+        "You are the first responder. Identify intent, then hand off.",
+        "",
+        "You are NOT a manager. When you hand off, you are done - the receiving",
+        "agent talks to the customer directly and will not report back to you.",
+        "So transfer everything they need in the handoff payload.",
+        "",
+        "HANDOFF PAYLOAD must carry:",
+        "  - customer_id and verified status",
+        "  - the customer's goal in your own words",
+        "  - anything already tried in this conversation",
+        "  - what you have ALREADY promised the customer (critical - do not let",
+        "    the next agent contradict you)",
+        "",
+        "Do not hand off more than twice. A third transfer means escalate to a human."
+      ],
+      "handoffs": ["billing_agent", "technical_agent", "human_queue"],
+      "handoff_payload_schema": {
+        "customer_id": "string",
+        "verified": "boolean",
+        "goal": "string",
+        "already_tried": "string[]",
+        "promises_made": "string[]"
+      }
+    },
+    {
+      "name": "billing_agent",
+      "role": "worker",
+      "owns_conversation_after_handoff": true,
+      "model": "large",
+      "system_prompt": [
+        "You have taken over this conversation. You now own it end to end.",
+        "",
+        "Read promises_made FIRST and honor every one of them. The customer was",
+        "told these things by us; contradicting them is worse than the original problem.",
+        "",
+        "You may issue refunds up to $200 without approval. Above that, or for",
+        "accounts flagged 'enterprise', hand off to human_queue with a summary.",
+        "Never mention that you are a different agent than the one before."
+      ],
+      "tools": ["lookup_charge", "issue_refund", "escalate"],
+      "handoffs": ["human_queue"]
+    }
+  ]
+}</code></pre>
+        <div class="why">
+          <div class="why-item"><span class="n">1</span><div><b><code>promises_made</code></b> is the single most-skipped field in real handoff systems, and the one that generates the worst customer experiences. Handoffs lose implicit commitments unless you make them explicit.</div></div>
+          <div class="why-item"><span class="n">2</span><div><b>“Do not hand off more than twice”</b> — handoff loops are a documented failure mode. Bound them structurally.</div></div>
+          <div class="why-item"><span class="n">3</span><div>LangChain's benchmark found handoffs <b>beat</b> supervisors here, because the specialist speaks to the user directly — no lossy re-encoding.</div></div>
+        </div>
+        <div class="linkrow"><button class="btn mini-btn" data-run="handoff">▶ Run this trace in the Simulator</button></div>
+      </div>
+
+      <!-- BP 5 -->
+      <div class="card bp-card" id="bp-judge">
+        <div class="role">Blueprint 5 · fresh-context judge ⭐</div>
+        <h3>Code review <span class="tag">the 2026 pattern</span></h3>
+        <p>The highest-leverage blueprint here. Note that <code>context_policy</code> is mostly a list of things the judge is <b>forbidden</b> to see.</p>
+        <div class="code-head"><span class="fname">fresh-context-judge.json</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>{
+  "pattern": "evaluator/fresh-context-judge",
+  "principle": "The builder should not grade its own work, and the grader should not inherit the builder's context.",
+  "agents": [
+    {
+      "name": "review_agent",
+      "role": "judge",
+      "model": "large",
+      "context_policy": {
+        "inherits_parent_history": false,
+        "receives": ["diff", "repo_read_access", "test_command"],
+        "must_not_receive": [
+          "original_spec",
+          "builder_conversation",
+          "builder_planning_notes",
+          "builder_self_assessment"
+        ],
+        "rationale": "Ignorance of the spec is the feature. Forced to reason backward from the implementation, the judge re-derives intent and catches where code and intent diverge."
+      },
+      "tools": ["read_file", "run_tests", "git_log"],
+      "forbidden_tools": ["write_file", "edit_file", "commit"],
+      "system_prompt": [
+        "You are reviewing a code change. You have NOT seen the specification,",
+        "the plan, or the conversation that produced it. This is intentional.",
+        "",
+        "STEP 1 - Reconstruct intent. From the diff alone, state what you believe",
+        "this change is trying to do. Write it down before evaluating anything.",
+        "",
+        "STEP 2 - Evaluate against the DEFAULT-FAIL rubric below. Every criterion",
+        "starts as FAIL. You may only mark PASS after citing specific evidence:",
+        "a file and line, or command output you actually ran. A criterion you did",
+        "not check stays FAIL. Do not mark PASS because something looks fine.",
+        "",
+        "STEP 3 - Report. For each finding give severity, location, and the concrete",
+        "failure scenario (inputs to wrong behavior). No stylistic nitpicks.",
+        "",
+        "You cannot edit anything. Do not propose a full rewrite - report defects."
+      ],
+      "rubric": [
+        { "id": "tests_pass",      "default": "FAIL", "evidence_required": "test command output" },
+        { "id": "no_regressions",  "default": "FAIL", "evidence_required": "file:line of preserved behavior" },
+        { "id": "errors_handled",  "default": "FAIL", "evidence_required": "file:line of error path" },
+        { "id": "no_secrets",      "default": "FAIL", "evidence_required": "grep output" },
+        { "id": "intent_matches",  "default": "FAIL", "evidence_required": "reconstructed intent vs diff" }
+      ],
+      "output_contract": {
+        "format": "json",
+        "schema": {
+          "reconstructed_intent": "string",
+          "rubric_results": "array",
+          "findings": "array of { severity, file, line, failure_scenario }"
+        }
+      }
+    }
+  ]
+}</code></pre>
+        <div class="why">
+          <div class="why-item"><span class="n">1</span><div><b>Default-FAIL with evidence gates</b> is Anthropic's harness pattern verbatim: “Every criterion starts <code>false</code>; the agent can't mark it passing without opening evidence first.” Because “asking nicely in the prompt doesn't reliably stop this.”</div></div>
+          <div class="why-item"><span class="n">2</span><div><b><code>must_not_receive</code></b> inverts the usual advice on purpose. Cognition: “we found this technique to work best when the coding and review agents do not share any context beforehand.”</div></div>
+          <div class="why-item"><span class="n">3</span><div><b><code>forbidden_tools</code></b> makes “judge cannot become builder” structural rather than instructional. Anthropic's evaluator has no Write/Edit tools at all.</div></div>
+        </div>
+        <div class="linkrow"><button class="btn mini-btn" data-run="judge">▶ Run this trace in the Simulator</button></div>
+      </div>
+
+      <!-- BP 6 -->
+      <div class="card bp-card" id="bp-antipattern">
+        <div class="role">Blueprint 6 · ⚠️ the anti-pattern</div>
+        <h3>Parallel writers <span class="tag">annotated failure</span></h3>
+        <p>This looks reasonable and is the most common multi-agent mistake. Annotations mark where it breaks.</p>
+        <div class="code-head"><span class="fname">DO-NOT-SHIP.json</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>{
+  "pattern": "parallel-writers",
+  "status": "ANTI-PATTERN - shown so you can recognize it",
+  "agents": [
+    {
+      "name": "coordinator",
+      "role": "coordinator",
+      "system_prompt": [
+        "Split the app build across three agents and merge their work.",
+        "Pass each agent the full original user request so they share context."
+      ],
+      "_flaw_1": "Sharing the PROMPT is not sharing the CONTEXT. Context is generated by action - each agent's choices are invisible to the others.",
+      "sub_agents": ["sprite_agent", "background_agent", "physics_agent"]
+    },
+    {
+      "name": "sprite_agent",
+      "role": "worker",
+      "writes_to": ["src/sprites/"],
+      "system_prompt": ["Build the player sprite. Match the game's visual style."],
+      "_flaw_2": "'Match the visual style' is unresolvable - no style has been decided yet, and this agent cannot see what the others chose. It will pick one reasonably and be wrong."
+    },
+    {
+      "name": "background_agent",
+      "role": "worker",
+      "writes_to": ["src/background/"],
+      "system_prompt": ["Build the background art. Match the game's visual style."],
+      "_flaw_3": "Same instruction, different reasonable answer. One agent produces cartoon, the other photorealistic. Both followed orders."
+    },
+    {
+      "name": "physics_agent",
+      "role": "worker",
+      "writes_to": ["src/physics/"],
+      "system_prompt": ["Tune collision and gravity for the player sprite."],
+      "_flaw_4": "Depends on a sprite that does not exist yet. It will assume dimensions, and the assumption will be wrong."
+    }
+  ],
+  "_why_it_fails": "Actions carry implicit decisions, and conflicting decisions carry bad results. Three agents made three defensible choices that cannot be merged.",
+  "_the_fix": {
+    "option_a": "Single-threaded write: one agent builds all three, optionally consulting read-only advisors.",
+    "option_b": "Decide the shared decisions UP FRONT (style guide, sprite dimensions) and freeze them into every prompt before fanning out.",
+    "option_c": "Add a mechanical oracle - if a build/test can adjudicate correctness, parallel writes become viable (this is how the parallel-Claudes C compiler worked)."
+  }
+}</code></pre>
+        <div class="why">
+          <div class="why-item"><span class="n">1</span><div><b>Option B is the underrated fix.</b> Parallel writes fail on <i>undecided</i> shared decisions. Decide them first, freeze them into every prompt, and much of the fragility disappears.</div></div>
+          <div class="why-item"><span class="n">2</span><div><b>Option C is the live debate.</b> Cursor and Anthropic have run large parallel-writer systems successfully — but Cognition's counter is that those tasks “share a property most real software doesn't: a simple, verifiable success criterion.”</div></div>
+        </div>
+        <div class="linkrow"><button class="btn mini-btn" data-run="antipattern">▶ Run this trace in the Simulator</button></div>
+      </div>
+
+      <!-- BUILDING BLOCKS -->
+      <div class="card">
+        <h3>🧱 Prompt building blocks — a few variants per role</h3>
+        <p class="section-sub" style="margin-bottom:14px">Reusable fragments. Pick the variant that matches how much autonomy you actually want.</p>
+
+        <div class="code-head"><span class="fname">coordinator-variants.txt</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>=== A. Tight coordinator (predictable, cheaper) ===
+You decompose the request into at most 4 subtasks drawn ONLY from this list:
+{search, summarize, compute, draft}. If the request needs something outside
+this list, say so instead of improvising. Delegate, then synthesize yourself.
+
+=== B. Open coordinator (flexible, costlier) ===
+You decide what the subtasks are - there is no fixed menu. State your plan
+before delegating, and revise it if returning results contradict it.
+Prefer 3-5 subagents. Every task you send must name what it EXCLUDES so
+parallel subagents do not overlap.
+
+=== C. Budgeted coordinator (production) ===
+You have a budget of 8 subagent calls and 120k total tokens for this task.
+Announce your plan and its projected cost before spending anything.
+If a plan would exceed budget, cut scope and say what you cut.
+When 80% of budget is consumed, stop delegating and synthesize what you have.
+Multi-agent runs cost roughly 15x a single chat turn - spend deliberately.</code></pre>
+
+        <div class="code-head"><span class="fname">worker-variants.txt</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>=== A. Read-only scout (safest, most parallelizable) ===
+You investigate and report. You have no write tools and must not propose
+edits. Return at most 1200 tokens: findings only, each with a source.
+You are a context filter - your exploration does not travel back upstream.
+
+=== B. Scoped writer (one owner per surface) ===
+You own exactly these paths: {paths}. You may not read or write outside them.
+If your task appears to require touching another path, STOP and report the
+dependency instead of reaching across. Another agent owns that surface.
+
+=== C. Advisor (contributes intelligence, not actions) ===
+You are consulted for judgment, not execution. Return a recommendation with
+reasoning and an explicit confidence level. You do not act, and the agent
+that called you is free to overrule you. If you are less than 60% confident,
+say so plainly rather than hedging in prose.</code></pre>
+
+        <div class="code-head"><span class="fname">judge-variants.txt</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>=== A. Rubric judge (default-FAIL) ===
+Every criterion starts FAIL. Mark PASS only after citing evidence you
+personally obtained - a file:line or command output. Unchecked stays FAIL.
+
+=== B. Adversarial refuter (for high-stakes claims) ===
+Your job is to REFUTE the claim below, not to evaluate it fairly.
+Find the input that breaks it. If after genuine effort you cannot construct
+a failing case, say so - that is a meaningful result. Default to 'refuted'
+when uncertain; a false pass is far more expensive than a false alarm.
+
+=== C. Fresh-eyes reviewer (no spec) ===
+You have not seen the requirements. First reconstruct, from the artifact
+alone, what it is trying to do. Then report where the artifact and your
+reconstructed intent diverge - those gaps are usually the real bugs.</code></pre>
+        <div class="callout info">
+          <span class="ic">💡</span>
+          <div><b>Pairing guide:</b> Tight coordinator + read-only scouts = cheap and predictable. Open coordinator + scoped writers = flexible but needs strong ownership boundaries. Any writer at all = add a judge, ideally variant C.</div>
+        </div>
+      </div>
+
+      <!-- DOMAIN VARIANTS -->
+      <div class="card">
+        <h3>🗂️ Domain variants — same patterns, four use cases</h3>
+        <p class="section-sub" style="margin-bottom:14px">Compact configs showing how the pattern choice changes with the work.</p>
+        <div class="code-head"><span class="fname">domain-variants.json</span><span class="acts"><button class="mini-btn" data-copy>Copy</button></span></div>
+<pre class="code"><code>{
+  "customer_support": {
+    "recommended_pattern": "handoff (decentralized)",
+    "why": "The specialist should talk to the customer directly. A supervisor relaying answers adds a lossy translation step and latency.",
+    "agents": ["triage", "billing", "technical", "human_queue"],
+    "key_prompt_line": "When you hand off you are done - carry promises_made in the payload.",
+    "watch_out": "Handoff loops. Bound transfers at 2, then escalate to a human."
+  },
+
+  "deep_research": {
+    "recommended_pattern": "orchestrator-workers",
+    "why": "Reads parallelize cleanly and the subtasks genuinely depend on the query.",
+    "agents": ["lead_researcher", "research_subagent xN", "citation_agent"],
+    "key_prompt_line": "Spawn 3-5 subagents; each returns at most 1500 distilled tokens; you write the report yourself.",
+    "watch_out": "Token cost ~15x a chat turn. Justify it against task value."
+  },
+
+  "software_engineering": {
+    "recommended_pattern": "single-threaded write + fresh-context judge",
+    "why": "Coding subtasks are tightly coupled and share state - Anthropic kept most coding single-agent.",
+    "agents": ["builder", "review_agent (clean context, no write tools)"],
+    "key_prompt_line": "The reviewer must not receive the spec or the builder's conversation.",
+    "watch_out": "Parallel writers on one codebase. Only viable with a mechanical oracle (build/tests) adjudicating."
+  },
+
+  "data_analytics": {
+    "recommended_pattern": "routing, then a single specialist",
+    "why": "Most analytics questions are one focused task. Multi-agent is overkill and adds failure modes.",
+    "agents": ["router", "sql_agent", "docs_agent"],
+    "key_prompt_line": "Emit exactly one route. Never attempt the answer yourself.",
+    "watch_out": "Do not build a pipeline for what one tool call answers."
+  }
+}</code></pre>
+        <div class="callout">
+          <span class="ic">⚖️</span>
+          <div><b>Notice the pattern isn't the same across domains.</b> Support wants handoffs; research wants orchestrator-workers; engineering wants one writer plus a judge; analytics wants plain routing. Picking the topology to match the work is most of the design decision.</div>
+        </div>
+      </div>
+    </section>
+
     <!-- ================= DIAGRAM ================= -->
     <section class="tab" id="diagram">
       <h2 class="section-title">The hierarchy, animated</h2>
@@ -838,7 +1417,7 @@
     <!-- ================= SIMULATOR ================= -->
     <section class="tab" id="sim">
       <h2 class="section-title">Pattern simulator</h2>
-      <p class="section-sub">Each task exercises a different pattern from the taxonomy. The last two show the 2026 patterns — the fresh-context judge and the anti-pattern.</p>
+      <p class="section-sub">Each task exercises a different pattern from the taxonomy. The last two show the 2026 patterns — the fresh-context judge and the anti-pattern. Every trace has a matching <b>JSON blueprint</b> — run it, then hit <b>View JSON blueprint</b> to see the agent definitions and system prompts behind it.</p>
       <div class="sim-grid">
         <div class="card" style="margin:0">
           <h3 style="font-size:15px;margin-bottom:12px">Choose a task</h3>
@@ -849,6 +1428,7 @@
           <div class="log" id="simLog"></div>
           <div class="controls">
             <button class="btn primary" id="runSim" disabled>▶ Run</button>
+            <button class="btn" id="viewBp" disabled>🧩 View JSON blueprint</button>
             <button class="btn" id="clearSim">Clear</button>
           </div>
         </div>
@@ -971,15 +1551,73 @@
 
   /* ---------- Tabs ---------- */
   var tabBtns = document.querySelectorAll(".tab-btn");
+  function showTab(name, scrollTop) {
+    tabBtns.forEach(function (x) { x.classList.toggle("active", x.dataset.tab === name); });
+    document.querySelectorAll("section.tab").forEach(function (s) {
+      s.classList.toggle("active", s.id === name);
+    });
+    if (scrollTop !== false) window.scrollTo({ top: 0, behavior: "smooth" });
+  }
   tabBtns.forEach(function (b) {
-    b.addEventListener("click", function () {
-      tabBtns.forEach(function (x) { x.classList.remove("active"); });
-      document.querySelectorAll("section.tab").forEach(function (s) { s.classList.remove("active"); });
-      b.classList.add("active");
-      document.getElementById(b.dataset.tab).classList.add("active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    b.addEventListener("click", function () { showTab(b.dataset.tab); });
+  });
+
+  /* ---------- JSON syntax highlighting ---------- */
+  function highlight(src) {
+    var out = src.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    out = out.replace(/"(?:\\.|[^"\\])*"(\s*:)?/g, function (m, colon) {
+      if (colon) return '<span class="j-key">' + m.slice(0, m.length - colon.length) + "</span>" + colon;
+      return '<span class="j-str">' + m + "</span>";
+    });
+    out = out.replace(/([:[,]\s*)(-?\d+\.?\d*)/g, '$1<span class="j-num">$2</span>');
+    out = out.replace(/([:[,]\s*)(true|false|null)\b/g, '$1<span class="j-lit">$2</span>');
+    out = out.replace(/^(===.*===)$/gm, '<span class="j-cmt">$1</span>');
+    return out;
+  }
+  document.querySelectorAll("pre.code > code").forEach(function (el) {
+    el.innerHTML = highlight(el.textContent);
+  });
+
+  /* ---------- Copy buttons ---------- */
+  document.querySelectorAll("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var head = btn.closest(".code-head");
+      var pre = head && head.nextElementSibling;
+      if (!pre) return;
+      var text = pre.textContent;
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = "✓ Copied";
+        btn.classList.add("ok");
+        setTimeout(function () { btn.textContent = old; btn.classList.remove("ok"); }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+      } else { fallbackCopy(text, done); }
     });
   });
+  function fallbackCopy(text, done) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "absolute";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) { /* no-op */ }
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- Cross-navigation: blueprint <-> simulator ---------- */
+  function gotoBlueprint(id) {
+    showTab("blueprints", false);
+    var el = document.getElementById("bp-" + id);
+    if (!el) { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.classList.remove("flash");
+    void el.offsetWidth;
+    el.classList.add("flash");
+  }
 
   /* ---------- Diagram animation ---------- */
   var dot = document.getElementById("msgDot");
@@ -1103,23 +1741,45 @@
   var taskList = document.getElementById("taskList");
   var simLog = document.getElementById("simLog");
   var runBtn = document.getElementById("runSim");
+  var bpBtn = document.getElementById("viewBp");
   var clearBtn = document.getElementById("clearSim");
   var selected = null;
   var running = false;
+  var taskButtons = {};
+
+  function selectTask(t) {
+    if (running) return;
+    selected = t;
+    document.querySelectorAll(".task-btn").forEach(function (x) { x.classList.remove("active"); });
+    if (taskButtons[t.id]) taskButtons[t.id].classList.add("active");
+    runBtn.disabled = false;
+    bpBtn.disabled = false;
+    simLog.innerHTML = "";
+  }
 
   tasks.forEach(function (t) {
     var b = document.createElement("button");
     b.className = "task-btn";
     b.innerHTML = "<span>" + t.title + "</span><small>" + t.hint + "</small>";
-    b.addEventListener("click", function () {
-      if (running) return;
-      selected = t;
-      document.querySelectorAll(".task-btn").forEach(function (x) { x.classList.remove("active"); });
-      b.classList.add("active");
-      runBtn.disabled = false;
-      simLog.innerHTML = "";
-    });
+    b.addEventListener("click", function () { selectTask(t); });
+    taskButtons[t.id] = b;
     taskList.appendChild(b);
+  });
+
+  bpBtn.addEventListener("click", function () {
+    if (selected) gotoBlueprint(selected.id);
+  });
+
+  /* “Run this trace” buttons inside the Blueprints tab */
+  document.querySelectorAll("[data-run]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var id = btn.getAttribute("data-run");
+      var t = tasks.filter(function (x) { return x.id === id; })[0];
+      if (!t) return;
+      showTab("sim");
+      selectTask(t);
+      setTimeout(function () { runBtn.click(); }, 400);
+    });
   });
 
   function labelFor(cls) {
